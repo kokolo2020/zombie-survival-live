@@ -1,0 +1,197 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: radial-gradient(circle at top, #18263d, #090d14 70%);
+  color: white;
+}
+
+.app {
+  max-width: 1300px;
+  margin: auto;
+  padding: 20px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+h1, h2, p {
+  margin: 0;
+}
+
+header p {
+  opacity: 0.75;
+  margin-top: 6px;
+}
+
+.wave-box {
+  min-width: 110px;
+  text-align: center;
+  background: #101826;
+  border: 2px solid #33425f;
+  border-radius: 16px;
+  padding: 12px;
+}
+
+.wave-box span {
+  display: block;
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.wave-box strong {
+  font-size: 38px;
+}
+
+main {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 20px;
+}
+
+.game-panel, .card {
+  background: rgba(10, 15, 25, 0.9);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+}
+
+.arena {
+  position: relative;
+  height: 520px;
+  overflow: hidden;
+  border-radius: 18px;
+  background:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(180deg, #263b29, #121b18);
+  background-size: 40px 40px, 40px 40px, auto;
+  border: 3px solid #415841;
+}
+
+.safehouse {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1f2e26;
+  border: 2px solid #7ee083;
+  border-radius: 14px;
+  padding: 10px 18px;
+  font-weight: bold;
+}
+
+.zombie, .survivor {
+  position: absolute;
+  font-size: 30px;
+  transition: all 0.4s ease;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,.6));
+}
+
+.zombie {
+  top: 40px;
+}
+
+.survivor {
+  bottom: 90px;
+}
+
+.status-row {
+  display: flex;
+  justify-content: space-around;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 14px 0;
+  font-size: 18px;
+}
+
+.commands {
+  background: rgba(255,255,255,0.06);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.commands h2 {
+  margin-bottom: 8px;
+}
+
+code {
+  display: inline-block;
+  margin: 4px;
+  padding: 6px 9px;
+  background: #263247;
+  border-radius: 8px;
+  color: #d8f7ff;
+}
+
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card h2 {
+  margin-bottom: 10px;
+}
+
+#leaderboard {
+  padding-left: 24px;
+  margin: 0;
+}
+
+#leaderboard li {
+  margin: 8px 0;
+}
+
+.log {
+  height: 230px;
+  overflow-y: auto;
+  background: rgba(0,0,0,0.25);
+  border-radius: 12px;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.log div {
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.test-box input, .test-box button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  margin-top: 8px;
+  font-size: 16px;
+}
+
+.test-box button {
+  background: #52d273;
+  color: #06100a;
+  font-weight: bold;
+}
+
+@media (max-width: 850px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+
+  .arena {
+    height: 420px;
+  }
+
+  header {
+    align-items: flex-start;
+  }
+}

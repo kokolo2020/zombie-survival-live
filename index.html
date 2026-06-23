@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Zombie Survival Live</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div>
+        <h1>🧟 Zombie Survival Live</h1>
+        <p>Chat vs Zombies • YouTube Livestream Game</p>
+      </div>
+      <div class="wave-box">
+        <span>Wave</span>
+        <strong id="wave">1</strong>
+      </div>
+    </header>
+
+    <main>
+      <section class="game-panel">
+        <div class="arena" id="arena">
+          <div class="safehouse">🏠 SAFE HOUSE</div>
+          <div class="zombie-line" id="zombieLine"></div>
+          <div class="survivor-line" id="survivorLine"></div>
+        </div>
+
+        <div class="status-row">
+          <div>🧍 Survivors: <strong id="survivorCount">0</strong></div>
+          <div>🧟 Zombies: <strong id="zombieCount">10</strong></div>
+          <div>❤️ Base HP: <strong id="baseHp">100</strong></div>
+        </div>
+
+        <div class="commands">
+          <h2>Chat Commands</h2>
+          <p><code>!join</code> <code>!fight</code> <code>!heal</code> <code>!search</code> <code>!build</code> <code>!run</code></p>
+        </div>
+      </section>
+
+      <aside class="side-panel">
+        <section class="card">
+          <h2>🏆 Leaderboard</h2>
+          <ol id="leaderboard"></ol>
+        </section>
+
+        <section class="card">
+          <h2>📢 Live Events</h2>
+          <div id="log" class="log"></div>
+        </section>
+
+        <section class="card test-box">
+          <h2>Test Chat</h2>
+          <p>Example: <strong>Mike: !join</strong></p>
+          <input id="chatInput" placeholder="Name: !command" />
+          <button id="sendBtn">Send Command</button>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
