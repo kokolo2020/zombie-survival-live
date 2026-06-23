@@ -2,6 +2,7 @@ const players = {};
 let wave = 1;
 let zombies = 10;
 let baseHp = 100;
+let zombieAdvance = 0;
 
 const waveEl = document.getElementById("wave");
 const survivorCountEl = document.getElementById("survivorCount");
@@ -9,10 +10,9 @@ const zombieCountEl = document.getElementById("zombieCount");
 const baseHpEl = document.getElementById("baseHp");
 const leaderboardEl = document.getElementById("leaderboard");
 const logEl = document.getElementById("log");
-const chatInput = document.getElementById("chatInput");
-const sendBtn = document.getElementById("sendBtn");
 const zombieLine = document.getElementById("zombieLine");
 const survivorLine = document.getElementById("survivorLine");
+const playerNameInput = document.getElementById("playerName");
 
 function addLog(message) {
   const row = document.createElement("div");
@@ -33,11 +33,21 @@ function ensurePlayer(name) {
       xp: 0,
       kills: 0,
       supplies: 0,
-      alive: true
+      y: Math.floor(Math.random() * 65) + 10,
+      x: Math.floor(Math.random() * 12) + 8,
+      action: false
     };
     addLog(`📢 Reinforcement has arrived: ${name}`);
   }
   return players[name];
+}
+
+function pulsePlayer(player) {
+  player.action = true;
+  setTimeout(() => {
+    player.action = false;
+    render();
+  }, 350);
 }
 
 function handleCommand(name, command) {
@@ -45,91 +55,128 @@ function handleCommand(name, command) {
 
   if (command === "!join") {
     addLog(`🧍 ${player.name} joined the survivor squad.`);
-  } else if (command === "!fight") {
+  }
+
+  if (command === "!fight") {
     const kills = Math.floor(Math.random() * 3) + 1;
     zombies = Math.max(0, zombies - kills);
+    zombieAdvance = Math.max(0, zombieAdvance - 5);
     player.kills += kills;
     player.xp += kills * 10;
-    addLog(`⚔️ ${player.name} fought bravely and defeated ${kills} zombie(s).`);
-  } else if (command === "!heal") {
+    player.x = Math.min(82, player.x + 6);
+    addLog(`⚔️ ${player.name} attacked and defeated ${kills} zombie(s).`);
+    pulsePlayer(player);
+  }
+
+  if (command === "!heal") {
     player.hp = Math.min(100, player.hp + 25);
     player.xp += 5;
-    addLog(`❤️ ${player.name} healed and is now at ${player.hp} HP.`);
-  } else if (command === "!search") {
+    addLog(`❤️ ${player.name} healed to ${player.hp} HP.`);
+    pulsePlayer(player);
+  }
+
+  if (command === "!search") {
     const found = Math.floor(Math.random() * 4) + 1;
     player.supplies += found;
     player.xp += found * 5;
-    addLog(`🎒 ${player.name} searched and found ${found} supplies.`);
-  } else if (command === "!build") {
+    player.x = Math.min(82, player.x + 3);
+    addLog(`🎒 ${player.name} found ${found} supplies.`);
+    pulsePlayer(player);
+  }
+
+  if (command === "!build") {
     const repair = Math.floor(Math.random() * 8) + 5;
     baseHp = Math.min(100, baseHp + repair);
     player.xp += 8;
+    player.x = Math.max(5, player.x - 4);
     addLog(`🔨 ${player.name} reinforced the safe house +${repair} HP.`);
-  } else if (command === "!run") {
+    pulsePlayer(player);
+  }
+
+  if (command === "!run") {
+    player.x = Math.max(5, player.x - 8);
     player.xp += 3;
-    addLog(`🏃 ${player.name} escaped danger and survived this moment.`);
-  } else {
-    addLog(`❓ ${player.name} used unknown command: ${command}`);
+    addLog(`🏃 ${player.name} ran back toward the safe house.`);
+    pulsePlayer(player);
+  }
+
+  if (command === "!boost") {
+    const kills = Math.floor(Math.random() * 5) + 2;
+    zombies = Math.max(0, zombies - kills);
+    zombieAdvance = Math.max(0, zombieAdvance - 10);
+    player.kills += kills;
+    player.xp += kills * 12;
+    player.x = Math.min(88, player.x + 10);
+    addLog(`⚡ ${player.name} used BOOST and cleared ${kills} zombie(s)!`);
+    pulsePlayer(player);
   }
 
   render();
 }
 
-function parseChatLine(text) {
-  const parts = text.split(":");
-  if (parts.length < 2) return null;
-  const name = normalizeName(parts[0]);
-  const command = parts.slice(1).join(":").trim().toLowerCase().split(" ")[0];
-  return { name, command };
-}
-
-function nextWave() {
+function nextWaveTick() {
   if (zombies > 0) {
-    const damage = Math.floor(zombies * (Math.random() * 1.8 + 0.8));
-    baseHp = Math.max(0, baseHp - damage);
-    addLog(`🧟 Wave ${wave} attacked the safe house for ${damage} damage!`);
+    zombieAdvance = Math.min(72, zombieAdvance + 7);
+    const damage = Math.floor((zombies * (0.4 + wave * 0.05)));
+    if (zombieAdvance >= 60) {
+      baseHp = Math.max(0, baseHp - damage);
+      addLog(`🧟 Zombies reached the safe house for ${damage} damage!`);
+    } else {
+      addLog(`🧟 Zombies are moving closer...`);
+    }
   } else {
-    addLog(`✅ Wave ${wave} cleared! Survivors gained momentum.`);
+    addLog(`✅ Wave ${wave} cleared! New wave incoming.`);
     wave += 1;
     zombies = 8 + wave * 4;
-  }
-
-  if (baseHp <= 0) {
-    addLog("🚨 Safe house collapsed! Resetting survival camp...");
-    wave = 1;
-    zombies = 10;
-    baseHp = 100;
+    zombieAdvance = 0;
     Object.values(players).forEach(p => {
-      p.hp = 100;
-      p.supplies = 0;
+      p.x = Math.max(8, p.x - 18);
+      p.xp += 15;
     });
   }
 
-  render();
+  if (baseHp <= 0) {
+    addLog("🚨 Safe house collapsed! Game reset.");
+    wave = 1;
+    zombies = 10;
+    baseHp = 100;
+    zombieAdvance = 0;
+    Object.values(players).forEach(p => {
+      p.hp = 100;
+      p.x = Math.floor(Math.random() * 12) + 8;
+    });
+  }
+
+  render(true);
 }
 
-function renderCharacters() {
+function renderCharacters(attackPulse = false) {
   zombieLine.innerHTML = "";
   survivorLine.innerHTML = "";
 
-  const zombieDisplay = Math.min(zombies, 18);
+  const zombieDisplay = Math.min(zombies, 20);
   for (let i = 0; i < zombieDisplay; i++) {
     const z = document.createElement("div");
-    z.className = "zombie";
+    z.className = "zombie" + (attackPulse ? " attack" : "");
     z.textContent = "🧟";
-    z.style.left = `${5 + (i % 9) * 10}%`;
-    z.style.top = `${35 + Math.floor(i / 9) * 45}px`;
+    const row = Math.floor(i / 10);
+    z.style.left = `${8 + zombieAdvance + (i % 10) * 3.2}%`;
+    z.style.top = `${50 + row * 45}px`;
     zombieLine.appendChild(z);
   }
 
-  const survivorNames = Object.keys(players).slice(0, 18);
-  survivorNames.forEach((name, i) => {
+  Object.values(players).slice(0, 30).forEach((p) => {
     const s = document.createElement("div");
-    s.className = "survivor";
-    s.title = name;
+    s.className = "survivor" + (p.action ? " action" : "");
     s.textContent = "🧍";
-    s.style.left = `${5 + (i % 9) * 10}%`;
-    s.style.bottom = `${95 + Math.floor(i / 9) * 45}px`;
+    s.style.left = `${p.x}%`;
+    s.style.bottom = `${80 + p.y * 3}px`;
+
+    const tag = document.createElement("div");
+    tag.className = "name-tag";
+    tag.textContent = p.name;
+    s.appendChild(tag);
+
     survivorLine.appendChild(s);
   });
 }
@@ -147,30 +194,24 @@ function renderLeaderboard() {
   });
 }
 
-function render() {
+function render(attackPulse = false) {
   waveEl.textContent = wave;
   survivorCountEl.textContent = Object.keys(players).length;
   zombieCountEl.textContent = zombies;
   baseHpEl.textContent = baseHp;
-  renderCharacters();
+  renderCharacters(attackPulse);
   renderLeaderboard();
 }
 
-sendBtn.addEventListener("click", () => {
-  const parsed = parseChatLine(chatInput.value);
-  if (parsed) {
-    handleCommand(parsed.name, parsed.command);
-    chatInput.value = "";
-  } else {
-    addLog("Type like this: Mike: !join");
-  }
+document.querySelectorAll("button[data-command]").forEach(button => {
+  button.addEventListener("click", () => {
+    const name = normalizeName(playerNameInput.value);
+    playerNameInput.value = name;
+    handleCommand(name, button.dataset.command);
+  });
 });
 
-chatInput.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") sendBtn.click();
-});
+setInterval(nextWaveTick, 8000);
 
-setInterval(nextWave, 30000);
-
-addLog("🎮 Game started. Type Mike: !join to test.");
+addLog("🎮 Enter your name and click Reinforcement Join.");
 render();

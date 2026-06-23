@@ -1,18 +1,16 @@
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
-  background: radial-gradient(circle at top, #18263d, #090d14 70%);
+  background: radial-gradient(circle at top, #1a263a, #070b12 75%);
   color: white;
 }
 
 .app {
-  max-width: 1300px;
+  max-width: 1380px;
   margin: auto;
-  padding: 20px;
+  padding: 18px;
 }
 
 header {
@@ -20,12 +18,10 @@ header {
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
-h1, h2, p {
-  margin: 0;
-}
+h1, h2, p { margin: 0; }
 
 header p {
   opacity: 0.75;
@@ -47,18 +43,16 @@ header p {
   opacity: 0.7;
 }
 
-.wave-box strong {
-  font-size: 38px;
-}
+.wave-box strong { font-size: 38px; }
 
 main {
   display: grid;
-  grid-template-columns: 1fr 360px;
-  gap: 20px;
+  grid-template-columns: 1fr 380px;
+  gap: 18px;
 }
 
 .game-panel, .card {
-  background: rgba(10, 15, 25, 0.9);
+  background: rgba(10, 15, 25, 0.92);
   border: 1px solid rgba(255,255,255,0.12);
   border-radius: 20px;
   padding: 16px;
@@ -67,15 +61,23 @@ main {
 
 .arena {
   position: relative;
-  height: 520px;
+  height: 560px;
   overflow: hidden;
   border-radius: 18px;
   background:
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(180deg, #263b29, #121b18);
-  background-size: 40px 40px, 40px 40px, auto;
-  border: 3px solid #415841;
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(180deg, #223d28, #111c17);
+  background-size: 48px 48px, 48px 48px, auto;
+  border: 3px solid #4c7049;
+}
+
+.danger-label {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  opacity: 0.75;
+  font-weight: bold;
 }
 
 .safehouse {
@@ -86,23 +88,32 @@ main {
   background: #1f2e26;
   border: 2px solid #7ee083;
   border-radius: 14px;
-  padding: 10px 18px;
+  padding: 12px 20px;
   font-weight: bold;
+  z-index: 5;
 }
 
 .zombie, .survivor {
   position: absolute;
-  font-size: 30px;
-  transition: all 0.4s ease;
+  font-size: 34px;
+  transition: left 0.5s ease, top 0.5s ease, bottom 0.5s ease, transform 0.25s ease;
   filter: drop-shadow(0 4px 6px rgba(0,0,0,.6));
 }
 
-.zombie {
-  top: 40px;
-}
+.zombie.attack { transform: scale(1.25) rotate(-7deg); }
+.survivor.action { transform: scale(1.25); }
 
-.survivor {
-  bottom: 90px;
+.name-tag {
+  position: absolute;
+  top: 32px;
+  left: -18px;
+  min-width: 70px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: bold;
+  background: rgba(0,0,0,0.65);
+  border-radius: 8px;
+  padding: 3px 5px;
 }
 
 .status-row {
@@ -120,27 +131,53 @@ main {
   padding: 14px;
 }
 
-.commands h2 {
-  margin-bottom: 8px;
-}
-
-code {
-  display: inline-block;
-  margin: 4px;
-  padding: 6px 9px;
-  background: #263247;
-  border-radius: 8px;
-  color: #d8f7ff;
-}
-
 .side-panel {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.card h2 {
-  margin-bottom: 10px;
+.card h2 { margin-bottom: 10px; }
+
+.player-card input, .player-card button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  margin-top: 8px;
+  font-size: 16px;
+}
+
+.player-card input {
+  outline: 2px solid #263247;
+  background: white;
+}
+
+.player-card button {
+  background: #52d273;
+  color: #06100a;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.player-card button:active { transform: scale(0.98); }
+
+.join {
+  background: #67d7ff !important;
+}
+
+.button-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.button-grid button {
+  margin-top: 0;
+  background: #253249;
+  color: white;
+  border: 1px solid rgba(255,255,255,0.12);
 }
 
 #leaderboard {
@@ -148,12 +185,10 @@ code {
   margin: 0;
 }
 
-#leaderboard li {
-  margin: 8px 0;
-}
+#leaderboard li { margin: 8px 0; }
 
 .log {
-  height: 230px;
+  height: 235px;
   overflow-y: auto;
   background: rgba(0,0,0,0.25);
   border-radius: 12px;
@@ -167,31 +202,8 @@ code {
   border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
-.test-box input, .test-box button {
-  width: 100%;
-  padding: 12px;
-  border-radius: 12px;
-  border: none;
-  margin-top: 8px;
-  font-size: 16px;
-}
-
-.test-box button {
-  background: #52d273;
-  color: #06100a;
-  font-weight: bold;
-}
-
-@media (max-width: 850px) {
-  main {
-    grid-template-columns: 1fr;
-  }
-
-  .arena {
-    height: 420px;
-  }
-
-  header {
-    align-items: flex-start;
-  }
+@media (max-width: 900px) {
+  main { grid-template-columns: 1fr; }
+  .arena { height: 430px; }
+  header { align-items: flex-start; }
 }

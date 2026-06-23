@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Zombie Survival Live</title>
+  <title>ZAttack Live</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <div class="app">
     <header>
       <div>
-        <h1>🧟 Zombie Survival Live</h1>
-        <p>Chat vs Zombies • YouTube Livestream Game</p>
+        <h1>🧟 ZAttack Live</h1>
+        <p>Interactive YouTube Livestream Zombie Survival Game</p>
       </div>
       <div class="wave-box">
         <span>Wave</span>
@@ -22,9 +22,10 @@
     <main>
       <section class="game-panel">
         <div class="arena" id="arena">
+          <div class="danger-label">🧟 ZOMBIE ZONE</div>
+          <div id="zombieLine"></div>
+          <div id="survivorLine"></div>
           <div class="safehouse">🏠 SAFE HOUSE</div>
-          <div class="zombie-line" id="zombieLine"></div>
-          <div class="survivor-line" id="survivorLine"></div>
         </div>
 
         <div class="status-row">
@@ -34,12 +35,27 @@
         </div>
 
         <div class="commands">
-          <h2>Chat Commands</h2>
-          <p><code>!join</code> <code>!fight</code> <code>!heal</code> <code>!search</code> <code>!build</code> <code>!run</code></p>
+          <h2>How Viewers Play</h2>
+          <p>Type your name once, then click buttons. Later we connect these buttons to YouTube chat commands.</p>
         </div>
       </section>
 
       <aside class="side-panel">
+        <section class="card player-card">
+          <h2>🎮 Player Control</h2>
+          <input id="playerName" placeholder="Enter your name" />
+          <button class="join" data-command="!join">Reinforcement Join</button>
+
+          <div class="button-grid">
+            <button data-command="!fight">⚔️ Fight</button>
+            <button data-command="!heal">❤️ Heal</button>
+            <button data-command="!search">🎒 Search</button>
+            <button data-command="!build">🔨 Build</button>
+            <button data-command="!run">🏃 Run</button>
+            <button data-command="!boost">⚡ Boost</button>
+          </div>
+        </section>
+
         <section class="card">
           <h2>🏆 Leaderboard</h2>
           <ol id="leaderboard"></ol>
@@ -48,13 +64,6 @@
         <section class="card">
           <h2>📢 Live Events</h2>
           <div id="log" class="log"></div>
-        </section>
-
-        <section class="card test-box">
-          <h2>Test Chat</h2>
-          <p>Example: <strong>Mike: !join</strong></p>
-          <input id="chatInput" placeholder="Name: !command" />
-          <button id="sendBtn">Send Command</button>
         </section>
       </aside>
     </main>
