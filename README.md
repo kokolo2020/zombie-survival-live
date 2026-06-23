@@ -1,14 +1,16 @@
-# ZAttack Live v2
+# ZAttack Live v3 Phaser
 
-Updated version:
-- Player types name once
-- Commands are click buttons
-- Survivors move when actions happen
-- Zombies move closer every wave tick
-- Fighting pushes zombies back
-- Reinforcement message appears when a player joins
+Professional-looking version using Phaser.js.
 
-Deploy to Netlify:
-1. Upload these files to GitHub
-2. Netlify auto-deploys
-3. Open zattack.netlify.app
+Features:
+- Real game canvas
+- Moving zombies and survivors
+- Damage numbers
+- HP bar
+- Classes: Soldier, Medic, Engineer, Sniper
+- Boss wave every 5 waves
+- Livestream-style banner
+- Mobile-friendly buttons
+
+Deploy:
+Upload index.html, style.css, game.js, README.md to your existing GitHub repo connected to Netlify.

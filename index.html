@@ -3,72 +3,55 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ZAttack Live</title>
+  <title>ZAttack Live v3</title>
   <link rel="stylesheet" href="style.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js"></script>
 </head>
 <body>
-  <div class="app">
-    <header>
-      <div>
-        <h1>🧟 ZAttack Live</h1>
-        <p>Interactive YouTube Livestream Zombie Survival Game</p>
-      </div>
-      <div class="wave-box">
-        <span>Wave</span>
-        <strong id="wave">1</strong>
+  <div class="page">
+    <header class="topbar">
+      <div><h1>🧟 ZAttack Live</h1><p>Interactive YouTube Livestream Zombie Survival Game</p></div>
+      <div class="stats">
+        <div><span>Wave</span><strong id="wave">1</strong></div>
+        <div><span>Zombies</span><strong id="zombieCount">10</strong></div>
+        <div><span>Base HP</span><strong id="baseHp">100</strong></div>
       </div>
     </header>
 
-    <main>
-      <section class="game-panel">
-        <div class="arena" id="arena">
-          <div class="danger-label">🧟 ZOMBIE ZONE</div>
-          <div id="zombieLine"></div>
-          <div id="survivorLine"></div>
-          <div class="safehouse">🏠 SAFE HOUSE</div>
-        </div>
-
-        <div class="status-row">
-          <div>🧍 Survivors: <strong id="survivorCount">0</strong></div>
-          <div>🧟 Zombies: <strong id="zombieCount">10</strong></div>
-          <div>❤️ Base HP: <strong id="baseHp">100</strong></div>
-        </div>
-
-        <div class="commands">
-          <h2>How Viewers Play</h2>
-          <p>Type your name once, then click buttons. Later we connect these buttons to YouTube chat commands.</p>
-        </div>
+    <main class="layout">
+      <section class="game-wrap">
+        <div id="game"></div>
+        <div class="banner" id="banner">Waiting for reinforcements...</div>
       </section>
 
-      <aside class="side-panel">
-        <section class="card player-card">
+      <aside class="panel">
+        <section class="card control-card">
           <h2>🎮 Player Control</h2>
-          <input id="playerName" placeholder="Enter your name" />
-          <button class="join" data-command="!join">Reinforcement Join</button>
+          <input id="playerName" placeholder="Enter your name once" maxlength="18"/>
+          <button class="join" data-command="join">📢 Reinforcement Join</button>
+
+          <div class="class-row">
+            <button data-class="soldier">🪖 Soldier</button>
+            <button data-class="medic">❤️ Medic</button>
+            <button data-class="engineer">🔨 Engineer</button>
+            <button data-class="sniper">🎯 Sniper</button>
+          </div>
 
           <div class="button-grid">
-            <button data-command="!fight">⚔️ Fight</button>
-            <button data-command="!heal">❤️ Heal</button>
-            <button data-command="!search">🎒 Search</button>
-            <button data-command="!build">🔨 Build</button>
-            <button data-command="!run">🏃 Run</button>
-            <button data-command="!boost">⚡ Boost</button>
+            <button data-command="fight">⚔️ Fight</button>
+            <button data-command="heal">❤️ Heal</button>
+            <button data-command="search">🎒 Search</button>
+            <button data-command="build">🔨 Build</button>
+            <button data-command="run">🏃 Run</button>
+            <button data-command="boost">⚡ Boost</button>
           </div>
         </section>
 
-        <section class="card">
-          <h2>🏆 Leaderboard</h2>
-          <ol id="leaderboard"></ol>
-        </section>
-
-        <section class="card">
-          <h2>📢 Live Events</h2>
-          <div id="log" class="log"></div>
-        </section>
+        <section class="card"><h2>🏆 Leaderboard</h2><ol id="leaderboard"></ol></section>
+        <section class="card"><h2>📢 Live Events</h2><div class="log" id="log"></div></section>
       </aside>
     </main>
   </div>
-
-  <script src="script.js"></script>
+  <script src="game.js"></script>
 </body>
 </html>
